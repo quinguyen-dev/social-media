@@ -5,7 +5,7 @@ import createError from "http-errors";
 const postRouter: Router = Router();
 
 /* Testing endpoint for post. Returns 200 if successful. */
-postRouter.get("/", async function (_, res: Response, next: NextFunction) {
+postRouter.get("/", async (_, res: Response, next: NextFunction) => {
   try {
     res.sendStatus(204);
   } catch (err) {
@@ -16,7 +16,7 @@ postRouter.get("/", async function (_, res: Response, next: NextFunction) {
 /* Create a new post */
 postRouter.post(
   "/",
-  async function (req: Request, res: Response, next: NextFunction) {
+  async (req: Request, res: Response, next: NextFunction) => {
     // todo: check authentication
     try {
       const post = await prismaClient.post.create({
@@ -36,7 +36,7 @@ postRouter.post(
 /* Get a specific post (will need to check for posted or not) */
 postRouter.get(
   "/:postId",
-  async function (req: Request, res: Response, next: NextFunction) {
+  async (req: Request, res: Response, next: NextFunction) => {
     // todo filter parameter for posted = false once implemented
     try {
       const post = await prismaClient.post.findFirstOrThrow({
@@ -60,7 +60,7 @@ postRouter.get(
 /* Update a specific post */
 postRouter.put(
   "/:postId",
-  async function (req: Request, res: Response, next: NextFunction) {
+  async (req: Request, res: Response, next: NextFunction) => {
     // todo look to change to update the entire resource
     try {
       const post = await prismaClient.post.update({
@@ -87,7 +87,7 @@ postRouter.put(
 /* Delete a specific ticket */
 postRouter.delete(
   "/:postId",
-  async function (req: Request, res: Response, next: NextFunction) {
+  async (req: Request, res: Response, next: NextFunction) => {
     // todo needs to be authenticated to delete a post
     try {
       await prismaClient.post.delete({
