@@ -58,14 +58,14 @@ postRouter.get(
 );
 
 /* Update a specific post */
-postRouter.put(
+postRouter.patch(
   "/:postId",
   async (req: Request, res: Response, next: NextFunction) => {
     // todo look to change to update the entire resource
     try {
       const post = await prismaClient.post.update({
         where: {
-          postId: req.body.postId,
+          postId: parseInt(req.params.postId),
         },
         data: {
           content: req.body.content,
@@ -84,7 +84,7 @@ postRouter.put(
   }
 );
 
-/* Delete a specific ticket */
+/* Delete a specific post */
 postRouter.delete(
   "/:postId",
   async (req: Request, res: Response, next: NextFunction) => {
@@ -92,7 +92,7 @@ postRouter.delete(
     try {
       await prismaClient.post.delete({
         where: {
-          postId: req.body.postId,
+          postId: parseInt(req.params.postId),
         },
       });
 
