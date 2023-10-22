@@ -8,10 +8,17 @@ import express, {
 } from "express";
 import createError, { HttpError } from "http-errors";
 import cors from "cors";
-import { postRouter } from "./routes/post";
+import { postRouter } from "./routes/posts";
+
+// todo move this elsewhere
+try {
+  require("./prisma.client");
+} catch (err) {
+  console.error(`Unable to connect to database: ${err}`);
+  process.exit(1);
+}
 
 const app: Express = express();
-// todo: check if database can even be connected to. Terminate otherwise
 
 app
   .disable("x-powered-by")
@@ -21,6 +28,7 @@ app
 
 app.use("/api/posts", postRouter);
 
+/* Error handler middleware */
 app
   .use(async (req: Request, res: Response, next: NextFunction) => {
     next(createError(404, "Resource not found."));
@@ -35,6 +43,7 @@ app
     });
   });
 
+/* Connect to port */
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`API is running on ${port}`);
