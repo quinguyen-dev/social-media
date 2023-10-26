@@ -22,7 +22,7 @@ postRouter.get(
     try {
       const post = await prismaClient.post.findFirstOrThrow({
         where: {
-          postId: parseInt(req.params.postId),
+          postId: req.params.postId,
         },
       });
 
@@ -68,7 +68,7 @@ postRouter.put(
     try {
       const post = await prismaClient.post.update({
         where: {
-          postId: parseInt(req.params.postId),
+          postId: req.params.postId,
         },
         data: updatedPost,
       });
@@ -93,7 +93,7 @@ postRouter.patch(
     try {
       const post = await prismaClient.post.update({
         where: {
-          postId: parseInt(req.params.postId),
+          postId: req.params.postId,
         },
         data: {
           content: req.body.content,
@@ -120,7 +120,7 @@ postRouter.delete(
     try {
       await prismaClient.post.delete({
         where: {
-          postId: parseInt(req.params.postId),
+          postId: req.params.postId,
         },
       });
 
