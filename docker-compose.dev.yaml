@@ -1,0 +1,33 @@
+version: "1"
+
+x-postgres-info: &pg-info
+  POSTGRES_CONTAINER: &pg-container database
+  POSTGRES_PORT: &pg-port "5432"
+
+x-postgres-args: &pg-args
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+  POSTGRES_DB: development
+
+services:
+  backend:
+    image: app:backend
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+      target: development
+      args:
+        <<: [*pg-args, *pg-info]
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/api/node_modules
+
+  postgres:
+    image: postgres:latest
+    container_name: *pg-container
+    ports:
+      - 5434:5432
+    expose:
+      - *pg-port
+    environment: *pg-args

@@ -38,6 +38,26 @@ postRouter.get(
   }
 );
 
+/* Get a specific post (will need to check for posted or not) */
+postRouter.get(
+  "/all",
+  async (req: Request, res: Response, next: NextFunction) => {
+    // todo filter parameter for posted = false once implemented
+    try {
+      const post = await prismaClient.post.findMany();
+
+      res.send(post);
+    } catch (err) {
+      next(
+        createError(
+          404,
+          `Resource not found at /api/posts/${req.params.postId}.`
+        )
+      );
+    }
+  }
+);
+
 /* Create a new post */
 // todo potentially doesn't need this (needs auth to be begin with)
 postRouter.post(

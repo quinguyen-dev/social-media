@@ -5,10 +5,11 @@ import express, {
   Request,
   Response,
   urlencoded,
-} from "express";
+} from "express"; // todo change this to types
 import createError, { HttpError } from "http-errors";
 import cors from "cors";
 import { postRouter } from "./routes/posts";
+import { usersRouter } from "./routes/users";
 
 // todo move this elsewhere
 try {
@@ -27,6 +28,7 @@ app
   .use(urlencoded({ extended: false }));
 
 app.use("/api/posts", postRouter);
+app.use("/api/users", usersRouter);
 
 /* Error handler middleware */
 app
